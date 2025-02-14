@@ -1,0 +1,17 @@
+{
+  "name": "coloniz-indexer",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@apibara/starknet": "^0.5.0",
+    "long": "^5.3.0",
+    "starknet": "^6.23.1",
+    "typeorm": "^0.3.20"
+  }
+}
