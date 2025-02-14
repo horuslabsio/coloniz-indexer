@@ -1,87 +1,78 @@
 import {
-    handleChannelCreated,
-    handleChannelMemberJoined,
-    handleChannelMemberLeft,
-    handleChannelModAdded,
-    handleChannelModRemoved,
-    handleChannelBanStatusUpdated
-} from "./channelEvents";
+  handleChannelBanStatusUpdated,
+  handleChannelCreated,
+  handleChannelMemberJoined,
+  handleChannelMemberLeft,
+  handleChannelModAdded,
+  handleChannelModRemoved,
+} from "./channelEvents.ts";
 
 import {
-    handleCommunityCreated,
-    handleCommunityMemberJoined,
-    handleCommunityMemberLeft,
-    handleCommunityModAdded,
-    handleCommunityModRemoved,
-    handleCommunityBanStatusUpdated,
-    handleCommunityUpgraded,
-    handleCommunityGateKeeped,
-    handleCommunityNftDeployed,
-} from "./communityEvents";
+  handleCommunityBanStatusUpdated,
+  handleCommunityCreated,
+  handleCommunityGateKeeped,
+  handleCommunityMemberJoined,
+  handleCommunityMemberLeft,
+  handleCommunityModAdded,
+  handleCommunityModRemoved,
+  handleCommunityNftDeployed,
+  handleCommunityUpgraded,
+} from "./communityEvents.ts";
 
 import {
-    handleJoltEvent,
-    handleJoltRequestEvent,
-    handleJoltFulfillmentEvent,
-} from "./joltEvents";
+  handleJoltEvent,
+  handleJoltFulfillmentEvent,
+  handleJoltRequestEvent,
+} from "./joltEvents.ts";
+
+import { handleCreateProfile } from "./profileEvents.ts";
 
 import {
-    handleCreateProfile,
-} from "./profileEvents";
+  handleBurnedEvent,
+  handleLinkedEvent,
+  handleMintedEvent,
+  handleUnlinkedEvent,
+} from "./handleEvents.ts";
 
 import {
-    handleMintedEvent,
-    handleBurnedEvent,
-    handleLinkedEvent,
-    handleUnlinkedEvent,
-} from "./handleEvents";
-
-import {
-    handleFollowEvent,
-    handleUnfollowEvent,
-    handleBlockEvent,
-    handleUnblockEvent,
-} from "./userActions";
+  handleBlockEvent,
+  handleFollowEvent,
+  handleUnblockEvent,
+  handleUnfollowEvent,
+} from "./userActions.ts";
 
 export {
-    // Channel events handlers
-    handleChannelCreated,
-    handleChannelMemberJoined,
-    handleChannelMemberLeft,
-    handleChannelModAdded,
-    handleChannelModRemoved,
-    handleChannelBanStatusUpdated,
-
-    // Community events handlers
-    handleCommunityCreated,
-    handleCommunityMemberJoined,
-    handleCommunityMemberLeft,
-    handleCommunityModAdded,
-    handleCommunityModRemoved,
-    handleCommunityBanStatusUpdated,
-    handleCommunityUpgraded,
-    handleCommunityGateKeeped,
-    handleCommunityNftDeployed,
-
-    // Jolt events handlers
-    handleJoltEvent,
-    handleJoltRequestEvent,
-    handleJoltFulfillmentEvent,
-
-    // Profile events handlers
-    handleCreateProfile,
-
-    // Handle events handlers
-    handleMintedEvent,
-    handleBurnedEvent,
-    handleLinkedEvent,
-    handleUnlinkedEvent,
-
-    // User actions handlers
-    handleFollowEvent,
-    handleUnfollowEvent,
-    handleBlockEvent,
-    handleUnblockEvent,
-}
-
-
+  handleBlockEvent,
+  handleBurnedEvent,
+  handleChannelBanStatusUpdated,
+  // Channel events handlers
+  handleChannelCreated,
+  handleChannelMemberJoined,
+  handleChannelMemberLeft,
+  handleChannelModAdded,
+  handleChannelModRemoved,
+  handleCommunityBanStatusUpdated,
+  // Community events handlers
+  handleCommunityCreated,
+  handleCommunityGateKeeped,
+  handleCommunityMemberJoined,
+  handleCommunityMemberLeft,
+  handleCommunityModAdded,
+  handleCommunityModRemoved,
+  handleCommunityNftDeployed,
+  handleCommunityUpgraded,
+  // Profile events handlers
+  handleCreateProfile,
+  // User actions handlers
+  handleFollowEvent,
+  // Jolt events handlers
+  handleJoltEvent,
+  handleJoltFulfillmentEvent,
+  handleJoltRequestEvent,
+  handleLinkedEvent,
+  // Handle events handlers
+  handleMintedEvent,
+  handleUnblockEvent,
+  handleUnfollowEvent,
+  handleUnlinkedEvent,
+};

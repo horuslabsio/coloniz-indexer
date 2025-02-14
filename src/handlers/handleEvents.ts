@@ -1,71 +1,76 @@
-import { DataSource } from 'typeorm';
-import { type HandleMintedEvent, type HandleBurnedEvent, type HandleLinkedEvent, type HandleUnlinkedEvent } from '../processors/handle';
+import { DataSource } from "typeorm";
+import {
+  type HandleBurnedEvent,
+  type HandleLinkedEvent,
+  type HandleMintedEvent,
+  type HandleUnlinkedEvent,
+} from "../processors/handle.ts";
 
 export async function handleMintedEvent(
-    event: HandleMintedEvent,
-    db: DataSource
+  event: HandleMintedEvent,
+  db: DataSource,
 ): Promise<void> {
-    const { localName, tokenId, to, timestamp } = event;
+  const { localName, tokenId, to, timestamp } = event;
 
-    await db
-        .createQueryBuilder()
-        .insert()
-        .into('handles')
-        .values({
-            handle: localName,
-            handle_id: tokenId,
-            owner: to,
-            created_at: timestamp,
-            status: 'minted',
-        })
-        .orIgnore()
-        .execute();
+  await db
+    .createQueryBuilder()
+    .insert()
+    .into("handles")
+    .values({
+      handle: localName,
+      handle_id: tokenId,
+      owner: to,
+      created_at: timestamp,
+      status: "minted",
+    })
+    .orIgnore()
+    .execute();
 }
 
 export async function handleBurnedEvent(
-    event: HandleBurnedEvent,
-    db: DataSource
+  event: HandleBurnedEvent,
+  db: DataSource,
 ): Promise<void> {
-    const { tokenId } = event;
+  const { tokenId } = event;
 
-    await db
-        .createQueryBuilder()
-        .update('handles')
-        .set({ status: 'burned' })
-        .where('handle_id = :tokenId', { tokenId })
-        .execute();
+  await db
+    .createQueryBuilder()
+    .update("handles")
+    .set({ status: "burned" })
+    .where("handle_id = :tokenId", { tokenId })
+    .execute();
 }
 
 export async function handleLinkedEvent(
-    event: HandleLinkedEvent,
-    db: DataSource
+  event: HandleLinkedEvent,
+  db: DataSource,
 ): Promise<void> {
-    const { tokenId, profileAddress } = event;
+  const { tokenId, profileAddress } = event;
 
-    await db
-        .createQueryBuilder()
-        .update('handles')
-        .set({
-            profile_address: profileAddress,
-            status: 'linked'
-        })
-        .where('handle_id = :tokenId', { tokenId })
-        .execute();
+  await db
+    .createQueryBuilder()
+    .update("handles")
+    .set({
+      profile_address: profileAddress,
+      status: "linked",
+    })
+    .where("handle_id = :tokenId", { tokenId })
+    .execute();
 }
 
 export async function handleUnlinkedEvent(
-    event: HandleUnlinkedEvent,
-    db: DataSource
+  event: HandleUnlinkedEvent,
+  db: DataSource,
 ): Promise<void> {
-    const { tokenId } = event;
+  const { tokenId } = event;
 
-    await db
-        .createQueryBuilder()
-        .update('handles')
-        .set({
-            profile_address: null,
-            status: 'unlinked'
-        })
-        .where('handle_id = :tokenId', { tokenId })
-        .execute();
+  await db
+    .createQueryBuilder()
+    .update("handles")
+    .set({
+      profile_address: null,
+      status: "unlinked",
+    })
+    .where("handle_id = :tokenId", { tokenId })
+    .execute();
 }

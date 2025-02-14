@@ -1,49 +1,54 @@
 import { FieldElement, v1alpha2 as starknet } from "@apibara/starknet";
 import Long from "long";
-import { num } from 'starknet';
+import { num } from "starknet";
 
 export function toHex(el: string | null | undefined) {
-    if (!el) return '0x0'
-    return standariseAddress(el);
+  if (!el) return "0x0";
+  return standariseAddress(el);
 }
 
 export function toBigInt(el: number | Long | null | undefined) {
-    if (!el) return BigInt(0);
-    return BigInt(el.toString());
+  if (!el) return BigInt(0);
+  return BigInt(el.toString());
 }
 
 export function toNumber(el: number | Long | null | undefined) {
-    if (!el) return 0
-    return Number(el.toString());
+  if (!el) return 0;
+  return Number(el.toString());
 }
 
 export function standariseAddress(address: string | bigint) {
-    let _a = address;
-    if (!address) {
-        _a = "0";
-    }
-    const a = num.getHexString(num.getDecimalString(_a.toString()));
-    return a;
+  let _a = address;
+  if (!address) {
+    _a = "0";
+  }
+  const a = num.getHexString(num.getDecimalString(_a.toString()));
+  return a;
 }
 
-export function processUint256(data: starknet.IFieldElement[], lowIndex: number, highIndex: number): number {
-    return toNumber(
-        Long.fromBits(
-            Number(FieldElement.toBigInt(data[lowIndex])),
-            Number(FieldElement.toBigInt(data[highIndex])),
-        ),
-    );
+export function processUint256(
+  data: starknet.IFieldElement[],
+  lowIndex: number,
+  highIndex: number,
+): number {
+  return toNumber(
+    Long.fromBits(
+      Number(FieldElement.toBigInt(data[lowIndex])),
+      Number(FieldElement.toBigInt(data[highIndex])),
+    ),
+  );
 }
 
 export function validateEnv() {
-    const requiredEnvs = [
-        'DNA_AUTH_TOKEN',
-        'POSTGRES_CONNECTION_STRING',
-        'START_BLOCK'
-    ]
+  const requiredEnvs = [
+    "DNA_AUTH_TOKEN",
+    "POSTGRES_CONNECTION_STRING",
+    "START_BLOCK",
+  ];
 
-    for (const env of requiredEnvs) {
-        if (!process.env[env])
-            throw new Error(`Env variable requird: ${env}`)
+  for (const env of requiredEnvs) {
+    if (!process.env[env]) {
+      throw new Error(`Env variable requird: ${env}`);
     }
+  }
 }

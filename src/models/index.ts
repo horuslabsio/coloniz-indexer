@@ -1,38 +1,37 @@
-import { BlockSchema } from "./block";
-import { ProfileSchema } from "./profile";
-import { PublicationSchema } from "./publication";
-import { VoteSchema } from "./vote";
-import { HandleSchema } from "./handle";
-import { FollowSchema } from "./follow";
-import { ChannelSchema } from "./channel";
-import { CommunitySchema } from "./community";
-import { JoltSchema } from "./jolt";
+import { BlockSchema } from "./block.ts";
+import { ProfileSchema } from "./profile.ts";
+import { PublicationSchema } from "./publication.ts";
+import { VoteSchema } from "./vote.ts";
+import { HandleSchema } from "./handle.ts";
+import { FollowSchema } from "./follow.ts";
+import { ChannelSchema } from "./channel.ts";
+import { CommunitySchema } from "./community.ts";
+import { JoltSchema } from "./jolt.ts";
 import {
-    MemberSchema,
-    ChannelModSchema,
-    CommunityModSchema,
-    CommunityBannedMemberSchema,
-    CommunityUpgradedSchema,
-    ChannelMemberSchema,
-    ChannelBannedMemberSchema,
-
-} from "./member";
+  ChannelBannedMemberSchema,
+  ChannelMemberSchema,
+  ChannelModSchema,
+  CommunityBannedMemberSchema,
+  CommunityModSchema,
+  CommunityUpgradedSchema,
+  MemberSchema,
+} from "./member.ts";
 
 export {
-    BlockSchema,
-    ProfileSchema,
-    PublicationSchema,
-    VoteSchema,
-    HandleSchema,
-    FollowSchema,
-    ChannelSchema,
-    CommunitySchema,
-    JoltSchema,
-    MemberSchema,
-    ChannelModSchema,
-    CommunityModSchema,
-    CommunityBannedMemberSchema,
-    CommunityUpgradedSchema,
-    ChannelMemberSchema,
-    ChannelBannedMemberSchema,
+  BlockSchema,
+  ChannelBannedMemberSchema,
+  ChannelMemberSchema,
+  ChannelModSchema,
+  ChannelSchema,
+  CommunityBannedMemberSchema,
+  CommunityModSchema,
+  CommunitySchema,
+  CommunityUpgradedSchema,
+  FollowSchema,
+  HandleSchema,
+  JoltSchema,
+  MemberSchema,
+  ProfileSchema,
+  PublicationSchema,
+  VoteSchema,
 };

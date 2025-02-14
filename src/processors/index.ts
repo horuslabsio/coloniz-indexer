@@ -1,69 +1,64 @@
 import {
-    processChannelCreatedEvent,
-    processChannelMemberEvent,
-    processChannelModEvent,
-    processChannelBanEvent,
-} from "./channels";
+  processChannelBanEvent,
+  processChannelCreatedEvent,
+  processChannelMemberEvent,
+  processChannelModEvent,
+} from "./channels.ts";
 
 import {
-    processCommunityCreatedEvent,
-    processCommunityMemberEvent,
-    processCommunityModEvent,
-    processCommunityBanEvent,
-    processCommunityUpgradeEvent,
-    processCommunityGateKeepEvent,
-    processCommunityNftEvent,
-} from "./communityProcessors";
+  processCommunityBanEvent,
+  processCommunityCreatedEvent,
+  processCommunityGateKeepEvent,
+  processCommunityMemberEvent,
+  processCommunityModEvent,
+  processCommunityNftEvent,
+  processCommunityUpgradeEvent,
+} from "./communityProcessors.ts";
+
+import { processCreateProfileEvent } from "./createProfile.ts";
 
 import {
-    processCreateProfileEvent,
-} from "./createProfile";
+  processHandleBurnedEvent,
+  processHandleLinkedEvent,
+  processHandleMintedEvent,
+  processHandleUnlinkedEvent,
+} from "./handle.ts";
 
 import {
-    processHandleMintedEvent,
-    processHandleBurnedEvent,
-    processHandleLinkedEvent,
-    processHandleUnlinkedEvent,
-} from "./handle";
+  processJoltEvent,
+  processJoltFulfillmentEvent,
+  processJoltRequestEvent,
+} from "./joltProcessors.ts";
 
 import {
-    processJoltEvent,
-    processJoltRequestEvent,
-    processJoltFulfillmentEvent,
-} from "./joltProcessors";
-import {
-    processFollowEvent,
-    processUnfollowEvent,
-    processBlockEvent,
-    processUnblockEvent,
-} from "./userActions";
+  processBlockEvent,
+  processFollowEvent,
+  processUnblockEvent,
+  processUnfollowEvent,
+} from "./userActions.ts";
 
 export {
-    processChannelCreatedEvent,
-    processChannelMemberEvent,
-    processChannelModEvent,
-    processChannelBanEvent,
-
-    processCommunityCreatedEvent,
-    processCommunityMemberEvent,
-    processCommunityModEvent,
-    processCommunityBanEvent,
-    processCommunityUpgradeEvent,
-    processCommunityGateKeepEvent,
-    processCommunityNftEvent,
-
-    processCreateProfileEvent,
-    processHandleMintedEvent,
-    processHandleBurnedEvent,
-    processHandleLinkedEvent,
-    processHandleUnlinkedEvent,
-
-    processJoltEvent,
-    processJoltRequestEvent,
-    processJoltFulfillmentEvent,
-
-    processFollowEvent,
-    processUnfollowEvent,
-    processBlockEvent,
-    processUnblockEvent,
-}
+  processBlockEvent,
+  processChannelBanEvent,
+  processChannelCreatedEvent,
+  processChannelMemberEvent,
+  processChannelModEvent,
+  processCommunityBanEvent,
+  processCommunityCreatedEvent,
+  processCommunityGateKeepEvent,
+  processCommunityMemberEvent,
+  processCommunityModEvent,
+  processCommunityNftEvent,
+  processCommunityUpgradeEvent,
+  processCreateProfileEvent,
+  processFollowEvent,
+  processHandleBurnedEvent,
+  processHandleLinkedEvent,
+  processHandleMintedEvent,
+  processHandleUnlinkedEvent,
+  processJoltEvent,
+  processJoltFulfillmentEvent,
+  processJoltRequestEvent,
+  processUnblockEvent,
+  processUnfollowEvent,
+};
