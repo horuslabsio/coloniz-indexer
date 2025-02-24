@@ -2,7 +2,7 @@
 
 declare module "apibara/types" {
   interface ApibaraRuntimeConfig {
-    colonizIndexer: {
+   colonizIndexer: {
       startingBlock: number,
 
       streamUrl: string,
@@ -10,7 +10,7 @@ declare module "apibara/types" {
       postgresConnectionString: string,
 
       colonizHubContractAddress: string,
-    },
+   },
   }
 }
-export type { };
+export type {};
