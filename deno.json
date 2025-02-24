@@ -1,8 +1,0 @@
-{
-  "tasks": {
-    "start": "apibara run --allow-env=.env index.ts --sink-id=1 --status-server-address=0.0.0.0:1234"
-  },
-  "imports": {
-    "@std/assert": "jsr:@std/assert@1"
-  }
-}
