@@ -5,7 +5,7 @@ import { defineConfig } from "apibara/config";
 export default defineConfig({
   runtimeConfig: {
     colonizIndexer: {
-      startingBlock: 0,
+      startingBlock: 410_000,
       streamUrl: "https://starknet-sepolia.preview.apibara.org",
       postgresConnectionString:
         process.env["POSTGRES_CONNECTION_STRING"] ?? "memory://colonizIndexer",

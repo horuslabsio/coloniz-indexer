@@ -264446,7 +264446,7 @@ function defineConfig(config) {
 const apibara_config = defineConfig({
     runtimeConfig: {
         colonizIndexer: {
-            startingBlock: 0,
+            startingBlock: 614_809,
             streamUrl: "https://starknet-sepolia.preview.apibara.org",
             postgresConnectionString: process.env["POSTGRES_CONNECTION_STRING"] ?? "memory://colonizIndexer",
             colonizHubContractAddress: "0x04bd89ef797c5a34a3c8bcc9dafca270959d9edcd568ea22a2364ffb3af959f0",
