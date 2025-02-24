@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1740389325249,
+      "tag": "0000_natural_moira_mactaggert",
+      "breakpoints": true
+    }
+  ]
+}
