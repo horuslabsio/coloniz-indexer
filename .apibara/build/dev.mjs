@@ -398664,7 +398664,7 @@ const LEFT_CHANNEL = hash_exports.getSelectorFromName("LeftChannel");
 const CHANNEL_MOD_ADDED = hash_exports.getSelectorFromName("ChannelModAdded");
 const CHANNEL_MOD_REMOVED = hash_exports.getSelectorFromName("ChannelModRemoved");
 const CHANNEL_BAN_STATUS_UPDATED = hash_exports.getSelectorFromName("ChannelBanStatusUpdated");
-function _rwWM8XtaH3 (runtimeConfig) {
+function _sa7ZkQNWtr (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -398851,7 +398851,7 @@ const COMMUNITY_BAN_STATUS_UPDATED = hash_exports.getSelectorFromName("Community
 const COMMUNITY_UPGRADED = hash_exports.getSelectorFromName("CommunityUpgraded");
 const COMMUNITY_GATE_KEEPED = hash_exports.getSelectorFromName("CommunityGatekeeped");
 const DEPLOYED_COMMUNITY_NFT = hash_exports.getSelectorFromName("DeployedCommunityNft");
-function _oFFKGq8Uop (runtimeConfig) {
+function _XAoDLQVli6 (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -399112,7 +399112,7 @@ const HANDLE_MINTED = hash_exports.getSelectorFromName("HandleMinted");
 const HANDLE_BURNT = hash_exports.getSelectorFromName("HandleBurnt");
 const HANDLE_LINKED = hash_exports.getSelectorFromName("HandleLinked");
 const HANDLE_UNLINKED = hash_exports.getSelectorFromName("HandleUnlinked");
-function _FGSHLd6TW2 (runtimeConfig) {
+function _SXi61p4QGb (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -399206,7 +399206,7 @@ function _FGSHLd6TW2 (runtimeConfig) {
 const JOLTED = hash_exports.getSelectorFromName("Jolted");
 const JOLT_REQUESTED = hash_exports.getSelectorFromName("JoltRequested");
 const JOLT_FULLFILLED = hash_exports.getSelectorFromName("JoltRequestFullfilled");
-function _gxpXLtXTMF (runtimeConfig) {
+function _YuBDmRQ8sV (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -399297,7 +399297,7 @@ function _gxpXLtXTMF (runtimeConfig) {
 
 // Define event selectors
 const CREATED_PROFILE = hash_exports.getSelectorFromName("CreatedProfile");
-function _XL7baHRy2b (runtimeConfig) {
+function _vo8jJ3VTzH (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -399366,7 +399366,7 @@ const FOLLOWED = hash_exports.getSelectorFromName("Followed");
 const UNFOLLOWED = hash_exports.getSelectorFromName("Unfollowed");
 const FOLLOWER_BLOCKED = hash_exports.getSelectorFromName("FollowerBlocked");
 const FOLLOWER_UNBLOCKED = hash_exports.getSelectorFromName("FollowerUnblocked");
-function _kqEnXvv6nZ (runtimeConfig) {
+function _BwAaHtZZkH (runtimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } = runtimeConfig[indexerId];
     const { db } = getDrizzlePgDatabase(postgresConnectionString);
@@ -399456,12 +399456,12 @@ function _kqEnXvv6nZ (runtimeConfig) {
 }
 
 const indexers = [
-      { name: "coloniz-channel", indexer: _rwWM8XtaH3 },
-{ name: "coloniz-community", indexer: _oFFKGq8Uop },
-{ name: "coloniz-handle", indexer: _FGSHLd6TW2 },
-{ name: "coloniz-jolt", indexer: _gxpXLtXTMF },
-{ name: "coloniz-profile", indexer: _XL7baHRy2b },
-{ name: "coloniz-useraction", indexer: _kqEnXvv6nZ }
+      { name: "coloniz-channel", indexer: _sa7ZkQNWtr },
+{ name: "coloniz-community", indexer: _XAoDLQVli6 },
+{ name: "coloniz-handle", indexer: _SXi61p4QGb },
+{ name: "coloniz-jolt", indexer: _YuBDmRQ8sV },
+{ name: "coloniz-profile", indexer: _vo8jJ3VTzH },
+{ name: "coloniz-useraction", indexer: _BwAaHtZZkH }
     ];
 
 function murmurHash(key, seed = 0) {
