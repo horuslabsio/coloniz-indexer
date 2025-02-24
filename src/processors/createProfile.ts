@@ -1,5 +1,8 @@
-import { FieldElement, v1alpha2 as starknet } from "@apibara/starknet";
-import { toHex, toNumber } from "../../utils.ts";
+import {
+  FieldElement,
+  v1alpha2 as starknet,
+} from "@apibara/starknet";
+import { toHex, toNumber } from "../../new/utils.js";
 import Long from "long";
 
 export interface CreateProfileEvent {

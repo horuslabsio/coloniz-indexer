@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 
 export enum FollowStatus {
@@ -16,6 +16,7 @@ export interface Follow {
   status: FollowStatus;
 }
 
+// @ts-ignore
 export const FollowSchema = new EntitySchema<Follow>({
   name: "Follow",
   tableName: "follows",

@@ -1,6 +1,9 @@
-import { FieldElement, v1alpha2 as starknet } from "@apibara/starknet";
-import Long from "long";
-import { num } from "starknet";
+import {
+  FieldElement,
+  v1alpha2 as starknet,
+} from "https://esm.sh/@apibara/starknet@0.5.0";
+import Long from "https://esm.sh/long";
+import { num } from "https://esm.sh/starknet@6.23.1";
 
 export function toHex(el: string | null | undefined) {
   if (!el) return "0x0";

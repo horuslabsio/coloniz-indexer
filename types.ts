@@ -1,4 +1,4 @@
-import { v1alpha2 } from "@apibara/starknet";
+import { v1alpha2 } from "https://esm.sh/@apibara/starknet@0.5.0";
 
 // Generic event processor result
 export interface IEventProcessorResult {

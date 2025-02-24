@@ -3,7 +3,7 @@ import {
   processChannelCreatedEvent,
   processChannelMemberEvent,
   processChannelModEvent,
-} from "./channels.ts";
+} from "./channels.js";
 
 import {
   processCommunityBanEvent,
@@ -13,29 +13,29 @@ import {
   processCommunityModEvent,
   processCommunityNftEvent,
   processCommunityUpgradeEvent,
-} from "./communityProcessors.ts";
+} from "./communityProcessors.js";
 
-import { processCreateProfileEvent } from "./createProfile.ts";
+import { processCreateProfileEvent } from "./createProfile.js";
 
 import {
   processHandleBurnedEvent,
   processHandleLinkedEvent,
   processHandleMintedEvent,
   processHandleUnlinkedEvent,
-} from "./handle.ts";
+} from "./handle.js";
 
 import {
   processJoltEvent,
   processJoltFulfillmentEvent,
   processJoltRequestEvent,
-} from "./joltProcessors.ts";
+} from "./joltProcessors.js";
 
 import {
   processBlockEvent,
   processFollowEvent,
   processUnblockEvent,
   processUnfollowEvent,
-} from "./userActions.ts";
+} from "./userActions.js";
 
 export {
   processBlockEvent,

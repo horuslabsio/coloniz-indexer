@@ -1,7 +1,12 @@
-import { FieldElement, v1alpha2 as starknet } from "@apibara/starknet";
-import { processUint256, toHex, toNumber } from "../../utils.ts";
+import {
+  FieldElement,
+  decodeEvent,
+  v1alpha2 as starknet,
+  Event
+} from "@apibara/starknet";
+import { processUint256, toHex, toNumber } from "../../new/utils.js";
 import Long from "long";
-import type { IEventProcessorResult } from "../../types.ts";
+import type { IEventProcessorResult } from "../../types.js";
 
 interface BaseChannelEvent {
   channelId: number;
@@ -31,7 +36,7 @@ export interface ChannelBanEvent
 }
 
 export function processChannelCreatedEvent(
-  event: starknet.IEvent,
+  event: Event,
 ): ChannelCreatedEvent {
   const data = event.data;
   if (!data) throw new Error("Processor: Expected event with data");
@@ -44,7 +49,7 @@ export function processChannelCreatedEvent(
 }
 
 export function processChannelMemberEvent(
-  event: starknet.IEvent,
+  event: Event,
 ): ChannelMemberEvent {
   const data = event.data;
   if (!data) throw new Error("Processor: Expected event with data");
@@ -57,7 +62,7 @@ export function processChannelMemberEvent(
 }
 
 export function processChannelModEvent(
-  event: starknet.IEvent,
+  event: Event,
 ): ChannelModEvent {
   const data = event.data;
   if (!data) throw new Error("Processor: Expected event with data");
@@ -70,7 +75,7 @@ export function processChannelModEvent(
 }
 
 export function processChannelBanEvent(
-  event: starknet.IEvent,
+  event: Event,
 ): ChannelBanEvent {
   const data = event.data;
   if (!data) throw new Error("Processor: Expected event with data");

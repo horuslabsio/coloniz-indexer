@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource } from "https://esm.sh/v135/typeorm@0.3.20";
 import {
   type BlockEvent,
   type FollowEvent,

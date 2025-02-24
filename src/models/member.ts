@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 import { type Community } from "./community.ts";
 import { type Channel } from "./channel.ts";
@@ -43,6 +43,7 @@ export interface CommunityGateKeeped extends Member {
   community: Community;
 }
 
+// @ts-ignore
 export const MemberSchema = new EntitySchema<Member>({
   name: "Member",
   tableName: "members",
@@ -77,6 +78,7 @@ export const MemberSchema = new EntitySchema<Member>({
   },
 });
 
+// @ts-ignore
 export const ChannelMemberSchema = new EntitySchema<ChannelMember>({
   name: "ChannelMember",
   tableName: "channel_members",
@@ -118,6 +120,7 @@ export const ChannelMemberSchema = new EntitySchema<ChannelMember>({
   },
 });
 
+// @ts-ignore
 export const ChannelModSchema = new EntitySchema<ChannelMod>({
   name: "ChannelMod",
   tableName: "channel_mods",
@@ -159,6 +162,7 @@ export const ChannelModSchema = new EntitySchema<ChannelMod>({
   },
 });
 
+// @ts-ignore
 export const ChannelBannedMemberSchema = new EntitySchema<ChannelBannedMember>({
   name: "ChannelBannedMember",
   tableName: "channel_banned_members",
@@ -200,6 +204,7 @@ export const ChannelBannedMemberSchema = new EntitySchema<ChannelBannedMember>({
   },
 });
 
+// @ts-ignore
 export const CommunityMemberSchema = new EntitySchema<CommunityMember>({
   name: "CommunityMember",
   tableName: "community_members",
@@ -241,6 +246,7 @@ export const CommunityMemberSchema = new EntitySchema<CommunityMember>({
   },
 });
 
+// @ts-ignore
 export const CommunityModSchema = new EntitySchema<CommunityMod>({
   name: "CommunityMod",
   tableName: "community_mods",
@@ -283,6 +289,7 @@ export const CommunityModSchema = new EntitySchema<CommunityMod>({
 });
 
 export const CommunityBannedMemberSchema = new EntitySchema<
+  // @ts-ignore
   CommunityBannedMember
 >({
   name: "CommunityBannedMember",
@@ -325,6 +332,7 @@ export const CommunityBannedMemberSchema = new EntitySchema<
   },
 });
 
+// @ts-ignore
 export const CommunityUpgradedSchema = new EntitySchema<CommunityUpgraded>({
   name: "CommunityUpgraded",
   tableName: "community_upgrades",
@@ -366,6 +374,7 @@ export const CommunityUpgradedSchema = new EntitySchema<CommunityUpgraded>({
   },
 });
 
+// @ts-ignore
 export const CommunityGateKeepedSchema = new EntitySchema<CommunityGateKeeped>({
   name: "CommunityGateKeeped",
   tableName: "community_gate_keeps",

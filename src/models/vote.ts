@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 import { type Publication } from "./publication.ts";
 
@@ -15,6 +15,7 @@ export interface Vote {
   createdAt: Date;
 }
 
+// @ts-ignore
 export const VoteSchema = new EntitySchema<Vote>({
   name: "Vote",
   tableName: "votes",

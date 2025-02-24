@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Community } from "./community.ts";
 import { type Profile } from "./profile.ts";
 import {
@@ -20,12 +20,13 @@ export interface Channel {
   mods: ChannelMod[];
   bannedMembers: ChannelBannedMember[];
   publications: Publication[];
-  messages: any[];
+  messages: unknown[];
   totalNumberOfPosts: number;
   totalNumberOfUpvotes: number;
   totalAmountSentInJolts: number;
 }
 
+// @ts-ignore
 export const ChannelSchema = new EntitySchema<Channel>({
   name: "Channel",
   tableName: "channels",

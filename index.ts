@@ -1,9 +1,9 @@
-import { FieldElement, v1alpha2 } from "@apibara/starknet";
+import { FieldElement, v1alpha2 } from "https://esm.sh/@apibara/starknet@0.5.0";
 import Contracts from "./contracts.ts";
-import { toNumber } from "./utils.ts";
-import { hash } from "starknet";
+import { toNumber } from "./new/utils.ts";
+import { hash } from "https://esm.sh/starknet@6.23.1";
 import { AppDataSource, initializeDatabase } from "./src/database.ts";
-import { DataSource } from "typeorm";
+// import { DataSource } from "../lib/typeorm.js";
 
 // Import all processors
 import {
@@ -142,9 +142,7 @@ const EventProcessors = {
 };
 
 // Create handler map with proper typing
-const EventHandlers: {
-  [key: string]: (event: any, db: DataSource) => Promise<void>;
-} = {
+const EventHandlers = {
   // Handle events
   [hash.getSelectorFromName(Contracts.events.HANDLE_MINTED)]: handleMintedEvent,
   [hash.getSelectorFromName(Contracts.events.HANDLE_BURNT)]: handleBurnedEvent,
@@ -287,7 +285,7 @@ export default async function transform({ header, events }: v1alpha2.Block) {
         const processedEvent = processor(event);
 
         // Handle the event
-        await handler(processedEvent, AppDataSource);
+        await (handler as any)(processedEvent, AppDataSource);
 
         // Store the event metadata
         results.push({

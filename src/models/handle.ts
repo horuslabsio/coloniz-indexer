@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 
 export type HandleStatus = "minted" | "linked" | "unlinked" | "burned";
@@ -13,6 +13,7 @@ export interface Handle {
   createdAt: number;
 }
 
+// @ts-ignore
 export const HandleSchema = new EntitySchema<Handle>({
   name: "Handle",
   tableName: "handles",

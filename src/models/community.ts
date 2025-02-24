@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 import { type Channel } from "./channel.ts";
 import {
@@ -40,9 +40,9 @@ export interface Community {
   upgrades: CommunityUpgraded[];
   gateKeepType: GateKeepType;
   gateKeeps: CommunityGateKeeped[];
-  communityNft: any | null;
+  communityNft: unknown | null;
   publications: Publication[];
-  categories: any[];
+  categories: unknown[];
   createdTimestamp: number | null;
   coverPhoto: string | null;
   displayPhoto: string | null;
@@ -51,6 +51,7 @@ export interface Community {
   domain: string | null;
 }
 
+// @ts-ignore
 export const CommunitySchema = new EntitySchema<Community>({
   name: "Community",
   tableName: "community",

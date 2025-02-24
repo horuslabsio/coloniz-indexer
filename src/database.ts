@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource } from "./lib/typeorm.js";
 import * as entities from "./models/index.ts";
 
 export const AppDataSource = new DataSource({

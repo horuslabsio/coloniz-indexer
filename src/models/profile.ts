@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { Handle } from "./handle.ts";
 import { CommunityMember } from "./member.ts";
 import { CommunityMod } from "./member.ts";
@@ -27,6 +27,7 @@ export interface Profile {
   receivedJolts: Jolt[];
 }
 
+// @ts-ignore
 export const ProfileSchema = new EntitySchema<Profile>({
   name: "Profile",
   tableName: "profiles",

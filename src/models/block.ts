@@ -1,4 +1,5 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
+
 import { type Profile } from "./profile.ts";
 
 export interface Block {
@@ -10,6 +11,7 @@ export interface Block {
   isBlocked: boolean;
 }
 
+// @ts-ignore
 export const BlockSchema = new EntitySchema<Block>({
   name: "Block",
   tableName: "blocks",

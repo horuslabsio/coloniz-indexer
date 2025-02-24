@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 import { type Community } from "./community.ts";
 import { type Channel } from "./channel.ts";
@@ -31,6 +31,7 @@ export interface Publication {
   createdAt: Date;
 }
 
+// @ts-ignore
 export const PublicationSchema = new EntitySchema<Publication>({
   name: "Publication",
   tableName: "publications",

@@ -1,4 +1,4 @@
-import { EntitySchema } from "typeorm";
+import { EntitySchema } from "../lib/typeorm.js";
 import { type Profile } from "./profile.ts";
 
 export interface Jolt {
@@ -11,6 +11,7 @@ export interface Jolt {
   createdTimestamp: number;
 }
 
+// @ts-ignore
 export const JoltSchema = new EntitySchema<Jolt>({
   name: "Jolt",
   tableName: "jolts",
