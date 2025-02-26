@@ -54,15 +54,17 @@ done
 for indexer in $INDEXER_FILES; do
   echo "Starting $indexer in production mode..."
   
-  # Create a temporary script to run the indexer
-  SCRIPT_PATH="$(pwd)/tmp_start_${indexer}.sh"
-  echo "#!/bin/bash" > "$SCRIPT_PATH"
-  echo "cd $(pwd)" >> "$SCRIPT_PATH"
-  echo "yarn start --indexer $indexer" >> "$SCRIPT_PATH"
-  chmod +x "$SCRIPT_PATH"
+    pm2 start yarn --name "$indexer" -- start --indexer $indexer
+
+#   # Create a temporary script to run the indexer
+#   SCRIPT_PATH="$(pwd)/tmp_start_${indexer}.sh"
+#   echo "#!/bin/bash" > "$SCRIPT_PATH"
+#   echo "cd $(pwd)" >> "$SCRIPT_PATH"
+#   echo "yarn start --indexer $indexer" >> "$SCRIPT_PATH"
+#   chmod +x "$SCRIPT_PATH"
   
-  # Use PM2 to start the script
-  pm2 start "$SCRIPT_PATH" --name "$indexer"
+#   # Use PM2 to start the script
+#   pm2 start "$SCRIPT_PATH" --name "$indexer"
   
   # Small delay to prevent potential race conditions
   sleep 1
@@ -70,7 +72,7 @@ done
 
 # Clean up temporary scripts
 echo "Cleaning up temporary scripts..."
-rm -f tmp_start_*.sh
+# rm -f tmp_start_*.sh
 
 # Save the PM2 process list
 echo "Saving PM2 process list..."
@@ -81,3 +83,4 @@ echo "Use 'pm2 status' to check status"
 echo "Use 'pm2 logs' to view logs"
 echo "Use 'pm2 stop *' to stop all Coloniz indexers"
 echo "Use 'pm2 delete *' to remove all Coloniz indexers from PM2"
+
