@@ -54,7 +54,7 @@ done
 for indexer in $INDEXER_FILES; do
   echo "Starting $indexer in production mode..."
   
-    pm2 start yarn --name "$indexer" -- start --indexer $indexer
+  pm2 start yarn --name "$indexer" -- start --indexer $indexer
 
 #   # Create a temporary script to run the indexer
 #   SCRIPT_PATH="$(pwd)/tmp_start_${indexer}.sh"
