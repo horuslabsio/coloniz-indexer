@@ -54,17 +54,7 @@ done
 for indexer in $INDEXER_FILES; do
   echo "Starting $indexer in production mode..."
   
-  pm2 start yarn --name "$indexer" -- start --indexer $indexer
-
-#   # Create a temporary script to run the indexer
-#   SCRIPT_PATH="$(pwd)/tmp_start_${indexer}.sh"
-#   echo "#!/bin/bash" > "$SCRIPT_PATH"
-#   echo "cd $(pwd)" >> "$SCRIPT_PATH"
-#   echo "yarn start --indexer $indexer" >> "$SCRIPT_PATH"
-#   chmod +x "$SCRIPT_PATH"
-  
-#   # Use PM2 to start the script
-#   pm2 start "$SCRIPT_PATH" --name "$indexer"
+  pm2 start npm --name "$indexer" -- run start -- --indexer $indexer
   
   # Small delay to prevent potential race conditions
   sleep 1
