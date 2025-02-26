@@ -264446,10 +264446,15 @@ function defineConfig(config) {
 const apibara_config = defineConfig({
     runtimeConfig: {
         colonizIndexer: {
-            startingBlock: 410_000,
+            startingBlock: 464939,
             streamUrl: "https://starknet-sepolia.preview.apibara.org",
             postgresConnectionString: process.env["POSTGRES_CONNECTION_STRING"] ?? "memory://colonizIndexer",
             colonizHubContractAddress: "0x04bd89ef797c5a34a3c8bcc9dafca270959d9edcd568ea22a2364ffb3af959f0",
+        },
+        newindexer: {
+            startingBlock: 0,
+            streamUrl: "https://starknet-sepolia.preview.apibara.org",
+            postgresConnectionString: process.env["POSTGRES_CONNECTION_STRING"] ?? "memory://newindexer",
         },
     },
     rollupConfig: {
@@ -398694,7 +398699,7 @@ function _sa7ZkQNWtr (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -398884,7 +398889,7 @@ function _XAoDLQVli6 (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -399140,7 +399145,7 @@ function _SXi61p4QGb (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -399233,7 +399238,7 @@ function _YuBDmRQ8sV (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -399322,7 +399327,7 @@ function _vo8jJ3VTzH (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -399394,7 +399399,7 @@ function _BwAaHtZZkH (runtimeConfig) {
             const { db } = useDrizzleStorage();
             const { events, header } = block;
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
             for (const event of events) {
@@ -399444,9 +399449,6 @@ function _BwAaHtZZkH (runtimeConfig) {
                         });
                         await db.delete(blocks)
                             .where(and(eq(blocks.blockerProfileAddress, String(decodedEvent.args.followed_address)), eq(blocks.blockedProfileAddress, String(decodedEvent.args.unblocked_follower))));
-                        break;
-                    default:
-                        logger.log(`Unknown event key: ${eventKey}`);
                         break;
                 }
             }
@@ -399611,9 +399613,10 @@ const startCommand = defineCommand({
     description: "Start the indexer"
   },
   args: {
-    indexers: {
+    indexer: {
       type: "string",
-      description: "Which indexers to run"
+      description: "Indexer name",
+      required: true
     },
     preset: {
       type: "string",
@@ -399621,41 +399624,26 @@ const startCommand = defineCommand({
     }
   },
   async run({ args }) {
-    const { indexers: indexersArgs, preset } = args;
-    let selectedIndexers = availableIndexers;
-    if (indexersArgs) {
-      selectedIndexers = indexersArgs.split(",");
-    }
-    for (const indexer of selectedIndexers) {
-      if (!availableIndexers.includes(indexer)) {
-        throw new Error(
-          `Specified indexer "${indexer}" but it was not defined`
-        );
-      }
-    }
-    await Promise.all(
-      selectedIndexers.map(async (indexer) => {
-        const indexerInstance = createIndexer(indexer, preset);
-        const client = createClient(
-          indexerInstance.streamConfig,
-          indexerInstance.options.streamUrl
-        );
-        await runWithReconnect(client, indexerInstance);
-      })
+    const { indexer, preset } = args;
+    const indexerInstance = createIndexer(indexer, preset);
+    const client = createClient(
+      indexerInstance.streamConfig,
+      indexerInstance.options.streamUrl
     );
+    await runWithReconnect(client, indexerInstance);
   }
 });
 const mainCli = defineCommand({
   meta: {
-    name: "indexer-dev-runner",
-    description: "Run indexer in dev mode"
+    name: "indexer-runner",
+    description: "Run an indexer"
   },
   subCommands: {
     start: () => startCommand
   }
 });
 runMain(mainCli);
-const dev = {};
+const start = {};
 
-export { dev as default, mainCli };
-//# sourceMappingURL=dev.mjs.map
+export { start as default, mainCli };
+//# sourceMappingURL=start.mjs.map

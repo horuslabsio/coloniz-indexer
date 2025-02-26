@@ -10,7 +10,12 @@
     "build": "apibara build",
     "typecheck": "tsc --noEmit",
     "drizzle:generate": "drizzle-kit generate",
-    "drizzle:migrate": "drizzle-kit migrate"
+    "drizzle:migrate": "drizzle-kit migrate",
+    "start:prod": "bash ./start-indexers-prod.sh",
+    "start:prod:no-build": "bash ./start-indexers-prod.sh --no-build",
+    "pm2:status": "pm2 status",
+    "pm2:logs": "pm2 logs",
+    "pm2:save": "pm2 save"
   },
   "dependencies": {
     "@apibara/indexer": "next",

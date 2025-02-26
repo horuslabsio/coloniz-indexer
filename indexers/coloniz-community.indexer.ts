@@ -57,7 +57,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
             const { events, header } = block;
 
             if (events.length === 0) {
-                logger.log(`No events found in block ${header?.blockNumber}`);
+                // logger.log(`No events found in block ${header?.blockNumber}`);
                 return;
             }
 
