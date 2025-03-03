@@ -1,6 +1,9 @@
 import typescript from "@rollup/plugin-typescript";
 import type { Plugin } from "apibara/rollup";
 import { defineConfig } from "apibara/config";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export default defineConfig({
   runtimeConfig: {
