@@ -9,6 +9,7 @@ import {
     timestamp,
     varchar,
     serial,
+    integer,
 } from "drizzle-orm/pg-core";
 
 // Enums
@@ -27,6 +28,16 @@ export const PublicationType = pgEnum("publication_type", [
     "Post",
 ]);
 export const VoteType = pgEnum("vote_type", ["Upvote", "Downvote"]);
+export const DocumentStatus = pgEnum("document_status", [
+    "PROCESSING",
+    "COMPLETED",
+    "FAILED",
+]);
+export const DocumentType = pgEnum("document_type", [
+    "FILE",
+    "FAQ",
+    "CRAWL",
+]);
 
 // Tables
 export const profiles = pgTable("profiles", {
@@ -250,6 +261,120 @@ export const communityGateKeeps = pgTable("community_gate_keeps", {
     ),
 });
 
+// Additional tables from entity files
+export const agentDocuments = pgTable("agent_documents", {
+    id: serial("id").primaryKey().notNull(),
+    documentId: varchar("document_id", { length: 255 }),
+    s3Key: varchar("s3_key", { length: 255 }),
+    originalName: varchar("original_name", { length: 255 }),
+    status: DocumentStatus("status").default("PROCESSING").notNull(),
+    chunksProcessed: integer("chunks_processed").default(0).notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    message: varchar("message", { length: 255 }),
+    type: DocumentType("document_type").default("FILE").notNull(),
+    content: text("content"),
+    url: varchar("url", { length: 255 }),
+    jobId: varchar("job_id", { length: 255 }),
+    communityId: bigint("community_id", { mode: "number" }).references(() => communities.id),
+});
+
+export const notifications = pgTable("notifications", {
+    id: serial("id").primaryKey().notNull(),
+    type: varchar("type", { length: 255 }).notNull(),
+    read: boolean("read").default(false),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    metadata: json("metadata"),
+    recipientId: varchar("recipient_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const referrals = pgTable("referrals", {
+    id: serial("id").primaryKey().notNull(),
+    referralCode: varchar("referral_code", { length: 255 }).unique().notNull(),
+    status: varchar("status", { length: 255 }).default("PENDING"),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    referrerId: varchar("referrer_id", { length: 255 }).references(() => profiles.profileAddress),
+    refereeId: varchar("referee_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const subColonies = pgTable("sub_colonies", {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", { length: 255 }).notNull(),
+    description: text("description"),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    communityId: bigint("community_id", { mode: "number" }).references(() => communities.id),
+});
+
+export const channelMessages = pgTable("channel_messages", {
+    id: serial("id").primaryKey().notNull(),
+    messageId: varchar("message_id", { length: 255 }).unique().notNull(),
+    content: text("content").notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    edited: boolean("edited").default(false),
+    editedTimestamp: bigint("edited_timestamp", { mode: "number" }),
+    replyToId: varchar("reply_to_id", { length: 255 }),
+    images: json("images").$type<string[]>(),
+    senderId: varchar("sender_id", { length: 255 }).references(() => profiles.profileAddress),
+    channelId: bigint("channel_id", { mode: "number" }).references(() => channels.id),
+});
+
+export const channelMessageReads = pgTable("channel_message_reads", {
+    id: serial("id").primaryKey().notNull(),
+    lastReadTimestamp: bigint("last_read_timestamp", { mode: "number" }).notNull(),
+    profileId: varchar("profile_id", { length: 255 }).references(() => profiles.profileAddress),
+    channelId: bigint("channel_id", { mode: "number" }).references(() => channels.id),
+});
+
+export const channelMessageReactions = pgTable("channel_message_reactions", {
+    id: serial("id").primaryKey().notNull(),
+    emoji: varchar("emoji", { length: 50 }).notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    messageId: varchar("message_id", { length: 255 }).references(() => channelMessages.messageId),
+    profileId: varchar("profile_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const publicationNfts = pgTable("publication_nfts", {
+    id: serial("id").primaryKey().notNull(),
+    nftAddress: varchar("nft_address", { length: 255 }).unique().notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    publicationId: bigint("publication_id", { mode: "number" }).references(() => publications.id),
+});
+
+export const collectNfts = pgTable("collect_nfts", {
+    id: serial("id").primaryKey().notNull(),
+    nftAddress: varchar("nft_address", { length: 255 }).unique().notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    tokenId: bigint("token_id", { mode: "number" }).notNull(),
+    publicationId: bigint("publication_id", { mode: "number" }).references(() => publications.id),
+    ownerId: varchar("owner_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const communityNfts = pgTable("community_nfts", {
+    id: serial("id").primaryKey().notNull(),
+    nftAddress: varchar("nft_address", { length: 255 }).unique().notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    tokenId: bigint("token_id", { mode: "number" }).notNull(),
+    communityId: bigint("community_id", { mode: "number" }).references(() => communities.id),
+    ownerId: varchar("owner_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const images = pgTable("images", {
+    id: serial("id").primaryKey().notNull(),
+    url: varchar("url", { length: 255 }).notNull(),
+});
+
+export const nonces = pgTable("nonces", {
+    id: serial("id").primaryKey().notNull(),
+    nonce: varchar("nonce", { length: 255 }).unique().notNull(),
+    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    profileId: varchar("profile_id", { length: 255 }).references(() => profiles.profileAddress),
+});
+
+export const categories = pgTable("categories", {
+    id: serial("id").primaryKey().notNull(),
+    name: varchar("name", { length: 255 }).unique().notNull(),
+    order: integer("order").default(0),
+});
+
 // Relations
 export const profilesRelations = relations(profiles, ({ many, one }) => ({
     handle: one(handles, {
@@ -471,4 +596,112 @@ export const communityGateKeepsRelations = relations(
         }),
     }),
 );
+
+export const agentDocumentsRelations = relations(agentDocuments, ({ one }) => ({
+    community: one(communities, {
+        fields: [agentDocuments.communityId],
+        references: [communities.id],
+    }),
+}));
+
+export const channelMessagesRelations = relations(channelMessages, ({ one, many }) => ({
+    sender: one(profiles, {
+        fields: [channelMessages.senderId],
+        references: [profiles.profileAddress],
+    }),
+    channel: one(channels, {
+        fields: [channelMessages.channelId],
+        references: [channels.id],
+    }),
+    reactions: many(channelMessageReactions),
+    replyTo: one(channelMessages, {
+        fields: [channelMessages.replyToId],
+        references: [channelMessages.messageId],
+    }),
+}));
+
+export const channelMessageReactionsRelations = relations(channelMessageReactions, ({ one }) => ({
+    message: one(channelMessages, {
+        fields: [channelMessageReactions.messageId],
+        references: [channelMessages.messageId],
+    }),
+    profile: one(profiles, {
+        fields: [channelMessageReactions.profileId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+export const channelMessageReadsRelations = relations(channelMessageReads, ({ one }) => ({
+    profile: one(profiles, {
+        fields: [channelMessageReads.profileId],
+        references: [profiles.profileAddress],
+    }),
+    channel: one(channels, {
+        fields: [channelMessageReads.channelId],
+        references: [channels.id],
+    }),
+}));
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+    recipient: one(profiles, {
+        fields: [notifications.recipientId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+export const referralsRelations = relations(referrals, ({ one }) => ({
+    referrer: one(profiles, {
+        fields: [referrals.referrerId],
+        references: [profiles.profileAddress],
+    }),
+    referee: one(profiles, {
+        fields: [referrals.refereeId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+export const subColoniesRelations = relations(subColonies, ({ one }) => ({
+    community: one(communities, {
+        fields: [subColonies.communityId],
+        references: [communities.id],
+    }),
+}));
+
+export const publicationNftsRelations = relations(publicationNfts, ({ one }) => ({
+    publication: one(publications, {
+        fields: [publicationNfts.publicationId],
+        references: [publications.id],
+    }),
+}));
+
+export const collectNftsRelations = relations(collectNfts, ({ one }) => ({
+    publication: one(publications, {
+        fields: [collectNfts.publicationId],
+        references: [publications.id],
+    }),
+    owner: one(profiles, {
+        fields: [collectNfts.ownerId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+export const communityNftsRelations = relations(communityNfts, ({ one }) => ({
+    community: one(communities, {
+        fields: [communityNfts.communityId],
+        references: [communities.id],
+    }),
+    owner: one(profiles, {
+        fields: [communityNfts.ownerId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+export const noncesRelations = relations(nonces, ({ one }) => ({
+    profile: one(profiles, {
+        fields: [nonces.profileId],
+        references: [profiles.profileAddress],
+    }),
+}));
+
+// Categories table has no direct relations in this schema
 
