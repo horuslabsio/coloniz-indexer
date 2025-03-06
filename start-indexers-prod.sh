@@ -57,7 +57,7 @@ for indexer in $INDEXER_FILES; do
   pm2 start npm --name "$indexer" -- run start -- --indexer $indexer
   
   # Small delay to prevent potential race conditions
-  sleep 1
+  sleep 15
 done
 
 # Clean up temporary scripts
