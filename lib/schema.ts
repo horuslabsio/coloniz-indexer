@@ -339,13 +339,13 @@ export const publicationNfts = pgTable("publication_nfts", {
     publicationId: bigint("publication_id", { mode: "number" }).references(() => publications.id),
 });
 
-export const collectNfts = pgTable("collectNfts", {
+export const collectNfts = pgTable("collect_nfts", {
     id: serial("id").primaryKey().notNull(),
-    nftAddress: varchar("nft_address", { length: 255 }).unique().notNull(),
-    timestamp: bigint("timestamp", { mode: "number" }).notNull(),
+    pubId: bigint("pub_id", { mode: "number" }).unique().notNull(),
+    transactionExecutor: varchar("transaction_executor", { length: 255 }).notNull(),
     tokenId: bigint("token_id", { mode: "number" }).notNull(),
-    publicationId: bigint("publication_id", { mode: "number" }).references(() => publications.id),
-    ownerId: varchar("owner_id", { length: 255 }).references(() => profiles.profileAddress),
+    publicationNft: varchar("publication_nft", { length: 255 }).references(() => publications.id),
+    createdAt: bigint("created_at", { mode: "number" }).notNull(),
 });
 
 export const communityNfts = pgTable("community_nfts", {
@@ -676,11 +676,11 @@ export const publicationNftsRelations = relations(publicationNfts, ({ one }) => 
 
 export const collectNftsRelations = relations(collectNfts, ({ one }) => ({
     publication: one(publications, {
-        fields: [collectNfts.publicationId],
+        fields: [collectNfts.publicationNft],
         references: [publications.id],
     }),
     owner: one(profiles, {
-        fields: [collectNfts.ownerId],
+        fields: [collectNfts.transactionExecutor],
         references: [profiles.profileAddress],
     }),
 }));
