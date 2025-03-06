@@ -11,14 +11,6 @@ declare module "apibara/types" {
 
       colonizHubContractAddress: string,
    },
-
-   newindexer: {
-      startingBlock: number,
-
-      streamUrl: string,
-
-      postgresConnectionString: string,
-   },
   }
 }
 export type {};

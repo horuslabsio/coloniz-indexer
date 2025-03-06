@@ -339,7 +339,7 @@ export const publicationNfts = pgTable("publication_nfts", {
     publicationId: bigint("publication_id", { mode: "number" }).references(() => publications.id),
 });
 
-export const collectNfts = pgTable("collect_nfts", {
+export const collectNfts = pgTable("collectNfts", {
     id: serial("id").primaryKey().notNull(),
     nftAddress: varchar("nft_address", { length: 255 }).unique().notNull(),
     timestamp: bigint("timestamp", { mode: "number" }).notNull(),
