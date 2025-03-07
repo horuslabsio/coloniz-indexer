@@ -1,14 +1,10 @@
 import { defineIndexer } from "@apibara/indexer";
 import { useLogger } from "@apibara/indexer/plugins";
 import { drizzleStorage, useDrizzleStorage } from "@apibara/plugin-drizzle";
-import { decodeEvent, StarknetStream } from "@apibara/starknet";
+import { StarknetStream } from "@apibara/starknet";
 import type { ApibaraRuntimeConfig } from "apibara/types";
-import { getDrizzlePgDatabase } from "../lib/db";
 import { hash } from "starknet";
-import { coloniz_Handles, coloniz_HandleRegistry } from "abis";
-import { handles } from "lib/schema";
-import { bigIntToString } from "utils";
-import { eq } from "drizzle-orm";
+import { handleMinted, handleBurnt, handleLinked, handleUnlinked } from "./handlers/handle.handlers";
 
 // Define event selectors
 const HANDLE_MINTED = hash.getSelectorFromName("HandleMinted") as `0x${string}`;
@@ -20,7 +16,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
   const indexerId = "colonizIndexer";
   const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
     runtimeConfig[indexerId];
-  const { db } = getDrizzlePgDatabase(postgresConnectionString);
+  const { db } = useDrizzleStorage();
 
   return defineIndexer(StarknetStream)({
     streamUrl,
@@ -44,7 +40,6 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
     async transform({ endCursor, finality, block }) {
       const logger = useLogger();
-      const { db } = useDrizzleStorage();
       const { events, header } = block;
 
       if (events.length === 0) {
@@ -54,58 +49,19 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
       for (const event of events) {
         const eventKey = event.keys[0];
-        let decodedEvent;
 
         switch (eventKey) {
           case HANDLE_MINTED:
-            decodedEvent = decodeEvent({
-              abi: coloniz_Handles,
-              eventName: "coloniz::namespaces::handles::Handles::HandleMinted",
-              event: event,
-            });
-
-            const { local_name, token_id, to, block_timestamp } = decodedEvent.args;
-
-            await db.insert(handles).values({
-              handle: bigIntToString(local_name),
-              handleId: String(token_id),
-              owner: to,
-              status: "minted",
-              createdAt: Number(block_timestamp),
-            });
+            await handleMinted(event, db);
             break;
           case HANDLE_BURNT:
-            decodedEvent = decodeEvent({
-              abi: coloniz_Handles,
-              eventName: "coloniz::namespaces::handles::Handles::HandleBurnt",
-              event: event,
-            });
-
-            await db.update(handles)
-              .set({ status: "burned" })
-              .where(eq(handles.handleId, String(decodedEvent.args.token_id)));
+            await handleBurnt(event, db);
             break;
           case HANDLE_LINKED:
-            decodedEvent = decodeEvent({
-              abi: coloniz_HandleRegistry,
-              eventName: "coloniz::namespaces::handle_registry::HandleRegistry::HandleLinked",
-              event: event,
-            });
-
-            await db.update(handles)
-              .set({ status: "linked", profileAddress: decodedEvent.args.profile_address })
-              .where(eq(handles.handleId, String(decodedEvent.args.handle_id)));
-
+            await handleLinked(event, db);
             break;
           case HANDLE_UNLINKED:
-            decodedEvent = decodeEvent({
-              abi: coloniz_HandleRegistry,
-              eventName: "coloniz::namespaces::handle_registry::HandleRegistry::HandleUnlinked",
-              event: event,
-            });
-            await db.update(handles)
-              .set({ status: "unlinked", profileAddress: null })
-              .where(eq(handles.handleId, String(decodedEvent.args.handle_id)));
+            await handleUnlinked(event, db);
             break;
           default:
             logger.log(`Unknown event key: ${eventKey}`);
