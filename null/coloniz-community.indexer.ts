@@ -14,7 +14,8 @@ import {
     handleCommunityUpgraded,
     handleCommunityGatekeeped,
     handleDeployedCommunityNft
-} from "./handlers/community.handlers";
+} from "../lib/handlers/community.handlers";
+import { getDrizzlePgDatabase } from "lib/db";
 
 // Define event selectors
 const COMMUNITY_CREATED = hash.getSelectorFromName("CommunityCreated") as `0x${string}`;
@@ -31,7 +32,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
         runtimeConfig[indexerId];
-    const { db } = useDrizzleStorage();
+    const { db } = getDrizzlePgDatabase(postgresConnectionString);
 
     return defineIndexer(StarknetStream)({
         streamUrl,
@@ -69,6 +70,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
             for (const event of events) {
                 const eventKey = event.keys[0];
+                const { db } = useDrizzleStorage();
 
                 switch (eventKey) {
                     case COMMUNITY_CREATED:

@@ -4,18 +4,20 @@ import { drizzleStorage, useDrizzleStorage } from "@apibara/plugin-drizzle";
 import { StarknetStream } from "@apibara/starknet";
 import type { ApibaraRuntimeConfig } from "apibara/types";
 import { hash } from "starknet";
-import { handleJolted, handleJoltRequested, handleJoltFullfilled } from "./handlers/jolt.handlers";
+import { handleFollowed, handleUnfollowed, handleFollowerBlocked, handleFollowerUnblocked } from "../lib/handlers/useraction.handlers";
+import { getDrizzlePgDatabase } from "lib/db";
 
 // Define event selectors from contracts.ts
-const JOLTED = hash.getSelectorFromName("Jolted") as `0x${string}`;
-const JOLT_REQUESTED = hash.getSelectorFromName("JoltRequested") as `0x${string}`;
-const JOLT_FULLFILLED = hash.getSelectorFromName("JoltRequestFullfilled") as `0x${string}`;
+const FOLLOWED = hash.getSelectorFromName("Followed") as `0x${string}`;
+const UNFOLLOWED = hash.getSelectorFromName("Unfollowed") as `0x${string}`;
+const FOLLOWER_BLOCKED = hash.getSelectorFromName("FollowerBlocked") as `0x${string}`;
+const FOLLOWER_UNBLOCKED = hash.getSelectorFromName("FollowerUnblocked") as `0x${string}`;
 
 export default function (runtimeConfig: ApibaraRuntimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
         runtimeConfig[indexerId];
-    const { db } = useDrizzleStorage();
+    const { db } = getDrizzlePgDatabase(postgresConnectionString);
 
     return defineIndexer(StarknetStream)({
         streamUrl,
@@ -27,9 +29,10 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
                 {
                     address: colonizHubContractAddress as `0x${string}`,
                     keys: [
-                        JOLTED,
-                        JOLT_REQUESTED,
-                        JOLT_FULLFILLED
+                        FOLLOWED,
+                        UNFOLLOWED,
+                        FOLLOWER_BLOCKED,
+                        FOLLOWER_UNBLOCKED
                     ],
                 },
             ],
@@ -47,22 +50,27 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
             for (const event of events) {
                 const eventKey = event.keys[0];
+                const { db } = useDrizzleStorage();
 
                 switch (eventKey) {
-                    case JOLTED:
-                        await handleJolted(event, db);
+                    case FOLLOWED:
+                        await handleFollowed(event, db);
                         break;
 
-                    case JOLT_REQUESTED:
-                        await handleJoltRequested(event, db);
+                    case UNFOLLOWED:
+                        await handleUnfollowed(event, db);
                         break;
 
-                    case JOLT_FULLFILLED:
-                        await handleJoltFullfilled(event, db);
+                    case FOLLOWER_BLOCKED:
+                        await handleFollowerBlocked(event, db);
+                        break;
+
+                    case FOLLOWER_UNBLOCKED:
+                        await handleFollowerUnblocked(event, db);
                         break;
 
                     default:
-                        logger.log(`Unknown event key: ${eventKey}`);
+                        // logger.log(`Unknown event key: ${eventKey}`);
                         break;
                 }
             }

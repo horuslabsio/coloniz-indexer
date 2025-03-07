@@ -20,7 +20,9 @@
   "include": [
     ".",
     "./.apibara/types",
-    "/abis",
+    "./abis",
+    "./lib",
+    "./indexers"
   ],
   "exclude": [
     "node_modules"

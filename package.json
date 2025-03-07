@@ -7,7 +7,7 @@
     "prepare": "apibara prepare",
     "dev": "apibara dev",
     "start": "apibara start",
-    "start:all": "apibara start --indexer coloniz-indexer",
+    "start:prod:new": "apibara start --indexer coloniz-indexer",
     "build": "apibara build",
     "typecheck": "tsc --noEmit",
     "drizzle:generate": "drizzle-kit generate",

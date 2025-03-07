@@ -1,6 +1,6 @@
 import { decodeEvent } from "@apibara/starknet";
 import { coloniz_ColonizChannel, coloniz_ColonizCommunity } from "abis";
-import { communities, communityMembers, communityMods, communityBannedMembers, communityUpgrades, communityGateKeeps } from "lib/schema";
+import { communities, communityMembers, communityMods, communityBannedMembers } from "lib/schema";
 import { eq, and } from "drizzle-orm";
 import type { PgDatabase } from "drizzle-orm/pg-core";
 

@@ -4,7 +4,7 @@ import { drizzleStorage, useDrizzleStorage } from "@apibara/plugin-drizzle";
 import { StarknetStream } from "@apibara/starknet";
 import type { ApibaraRuntimeConfig } from "apibara/types";
 import { hash } from "starknet";
-import { handleProfileCreated } from "./handlers/profile.handlers";
+import { handleProfileCreated } from "lib/handlers/profile.handlers";
 import {
     handleChannelCreated,
     handleJoinedChannel,
@@ -12,7 +12,8 @@ import {
     handleChannelModAdded,
     handleChannelModRemoved,
     handleChannelBanStatusUpdated
-} from "./handlers/channel.handlers";
+} from "lib/handlers/channel.handlers";
+
 import {
     handleCommunityCreated,
     handleJoinedCommunity,
@@ -23,10 +24,12 @@ import {
     handleCommunityUpgraded,
     handleCommunityGatekeeped,
     handleDeployedCommunityNft
-} from "./handlers/community.handlers";
-import { handleMinted, handleBurnt, handleLinked, handleUnlinked } from "./handlers/handle.handlers";
-import { handleJolted, handleJoltRequested, handleJoltFullfilled } from "./handlers/jolt.handlers";
-import { handleFollowed, handleUnfollowed, handleFollowerBlocked, handleFollowerUnblocked } from "./handlers/useraction.handlers";
+} from "lib/handlers/community.handlers";
+
+import { handleMinted, handleBurnt, handleLinked, handleUnlinked } from "lib/handlers/handle.handlers";
+import { handleJolted, handleJoltRequested, handleJoltFullfilled } from "lib/handlers/jolt.handlers";
+import { handleFollowed, handleUnfollowed, handleFollowerBlocked, handleFollowerUnblocked } from "lib/handlers/useraction.handlers";
+import { getDrizzlePgDatabase } from "lib/db";
 
 // Define useraction event selectors
 const FOLLOWED = hash.getSelectorFromName("Followed") as `0x${string}`;
@@ -71,7 +74,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
         runtimeConfig[indexerId];
-    const { db } = useDrizzleStorage();
+    const { db } = getDrizzlePgDatabase(postgresConnectionString);
 
     return defineIndexer(StarknetStream)({
         streamUrl,
@@ -116,6 +119,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
             for (const event of events) {
                 const eventKey = event.keys[0];
+                const { db } = useDrizzleStorage();
 
                 switch (eventKey) {
                     case CREATED_PROFILE:

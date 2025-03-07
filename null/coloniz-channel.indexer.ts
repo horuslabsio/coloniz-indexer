@@ -3,7 +3,6 @@ import { useLogger } from "@apibara/indexer/plugins";
 import { drizzleStorage, useDrizzleStorage } from "@apibara/plugin-drizzle";
 import { StarknetStream } from "@apibara/starknet";
 import type { ApibaraRuntimeConfig } from "apibara/types";
-import { getDrizzlePgDatabase } from "../lib/db";
 import { hash } from "starknet";
 import {
     handleChannelCreated,
@@ -12,7 +11,8 @@ import {
     handleChannelModAdded,
     handleChannelModRemoved,
     handleChannelBanStatusUpdated
-} from "./handlers/channel.handlers";
+} from "../lib/handlers/channel.handlers";
+import { getDrizzlePgDatabase } from "lib/db";
 
 // Define event selectors
 const CHANNEL_CREATED = hash.getSelectorFromName("ChannelCreated") as `0x${string}`;
@@ -26,7 +26,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
         runtimeConfig[indexerId];
-    const { db } = useDrizzleStorage();
+    const { db } = getDrizzlePgDatabase(postgresConnectionString);
 
     return defineIndexer(StarknetStream)({
         streamUrl,
@@ -61,7 +61,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
             for (const event of events) {
                 const eventKey = event.keys[0];
-
+                const { db } = useDrizzleStorage();
                 switch (eventKey) {
                     case CHANNEL_CREATED:
                         await handleChannelCreated(event, db);

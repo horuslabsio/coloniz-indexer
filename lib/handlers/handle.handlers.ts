@@ -3,7 +3,6 @@ import { coloniz_Handles, coloniz_HandleRegistry } from "abis";
 import { handles } from "lib/schema";
 import { bigIntToString } from "utils";
 import { eq } from "drizzle-orm";
-import { useLogger } from "@apibara/indexer/plugins";
 import type { PgDatabase } from "drizzle-orm/pg-core";
 
 export async function handleMinted(event: any, db: PgDatabase<any, any, any>) {

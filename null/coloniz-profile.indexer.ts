@@ -4,7 +4,8 @@ import { drizzleStorage, useDrizzleStorage } from "@apibara/plugin-drizzle";
 import { StarknetStream } from "@apibara/starknet";
 import type { ApibaraRuntimeConfig } from "apibara/types";
 import { hash } from "starknet";
-import { handleProfileCreated } from "./handlers/profile.handlers";
+import { handleProfileCreated } from "../lib/handlers/profile.handlers";
+import { getDrizzlePgDatabase } from "lib/db";
 
 // Define event selectors
 const CREATED_PROFILE = hash.getSelectorFromName("CreatedProfile") as `0x${string}`;
@@ -13,7 +14,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
     const indexerId = "colonizIndexer";
     const { startingBlock, streamUrl, postgresConnectionString, colonizHubContractAddress } =
         runtimeConfig[indexerId];
-    const { db } = useDrizzleStorage();
+    const { db } = getDrizzlePgDatabase(postgresConnectionString);
 
     return defineIndexer(StarknetStream)({
         streamUrl,
@@ -43,6 +44,7 @@ export default function (runtimeConfig: ApibaraRuntimeConfig) {
 
             for (const event of events) {
                 const eventKey = event.keys[0];
+                const { db } = useDrizzleStorage();
 
                 switch (eventKey) {
                     case CREATED_PROFILE:
